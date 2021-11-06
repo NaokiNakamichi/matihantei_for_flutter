@@ -146,9 +146,9 @@ class nanikiru(hantei):
 
 
 class generate_mondai(hantei):
-    def __init__(self, sakuseisuu):
+    def __init__(self, count):
         super(generate_mondai, self).__init__()
-        self.sakuseisuu = sakuseisuu
+        self.count = count
         self.result = {}
 
     def generate_q(self):
@@ -164,7 +164,7 @@ class generate_mondai(hantei):
         return question
 
     def generate_a(self):
-        while len(self.result) < self.sakuseisuu:
+        while len(self.result) < self.count:
             q = self.generate_q()
             if q:
                 k = self.hanteikun(q)
@@ -172,7 +172,7 @@ class generate_mondai(hantei):
                     self.result[q] = k
         return self.result
 
-    def generate_swift(self):
+    def generate_other_language(self,language):
         if self.result:
             for key, value in self.result.items():
                 tmp = []
@@ -182,8 +182,14 @@ class generate_mondai(hantei):
                     else:
                         tmp.append(False)
 
-                # swiftの構文
-                # self.list.append(QuestionAnswer(imageList: ["2","2","2","3","4","4","4","5","6","6","7","7","8"], boolList: [false,false,false,false,false,true,true,false,true]))
-                print("self.list.append(QuestionAnswer(imageList: {}, boolList: {}))".format(list(str(key)), tmp))
+                if language == "swift":
+                    # swiftの構文
+                    # self.list.append(QuestionAnswer(imageList: ["2","2","2","3","4","4","4","5","6","6","7","7","8"], boolList: [false,false,false,false,false,true,true,false,true]))
+                    print("self.list.append(QuestionAnswer(imageList: {}, boolList: {}))".format(list(str(key)), tmp))
+
+                elif language == "dart":
+                    print(f"Question({[int(x) for x in list(str(key))]},{tmp}),")
         else:
-            print("解答を作ってません")
+            print("解答を作ってません,hoge.generate_a()を先に実行してください")
+
+
